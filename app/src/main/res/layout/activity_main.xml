@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/light"
+    tools:context=".MainActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/beige"
+        app:cardCornerRadius="12dp"
+        >
+
+        <TextView
+            android:id="@+id/txt_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text="Cidade"
+            android:textAllCaps="true"
+            android:padding="10dp"
+            android:textColor="@color/dark"
+            android:textSize="40sp"
+            android:textStyle="bold"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/beige"
+        app:cardCornerRadius="12dp"
+        >
+
+        <TextView
+            android:id="@+id/txt_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text="14 ºC"
+            android:textAllCaps="true"
+            android:padding="10dp"
+            android:textColor="@color/dark"
+            android:textSize="60sp"
+            android:textStyle="bold"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp"
+        android:backgroundTint="@color/beige"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/txt_min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text="Min Temp"
+            android:padding="10dp"
+            android:textColor="@color/dark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/txt_min_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:text="14 ºC"
+            android:textColor="@color/dark"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/txt_min"
+            app:layout_constraintStart_toStartOf="@id/txt_min"
+            app:layout_constraintEnd_toEndOf="@id/txt_min"/>
+
+            <TextView
+                android:id="@+id/txt_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_bold"
+                android:text="Min Temp"
+                android:padding="10dp"
+                android:textColor="@color/dark"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="60dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_min_temp"/>
+
+            <TextView
+                android:id="@+id/txt_max_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_bold"
+                android:text="24 ºC"
+                android:textColor="@color/dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/txt_max"
+                app:layout_constraintStart_toStartOf="@id/txt_max"
+                app:layout_constraintEnd_toEndOf="@id/txt_max"/>
+
+            <ImageView
+                android:id="@+id/ic_rain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_bold"
+                android:src="@drawable/ic_rain"
+                android:text="Rain pos"
+                android:padding="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="60dp"
+                app:layout_constraintStart_toEndOf="@id/txt_min"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txt_rain_pos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_bold"
+                android:text="5%"
+                android:textColor="@color/dark"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/ic_rain"
+                app:layout_constraintEnd_toEndOf="@id/ic_rain"
+                app:layout_constraintTop_toBottomOf="@id/ic_rain"
+                />
+
+            <ImageView
+                android:id="@+id/ic_current"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_baseline_wb_sunny_24"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/txt_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans_bold"
+                android:text="Sunny"
+                android:textColor="@color/dark"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@id/ic_current"
+                app:layout_constraintEnd_toEndOf="@id/ic_current"
+                app:layout_constraintTop_toBottomOf="@id/ic_current"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>
