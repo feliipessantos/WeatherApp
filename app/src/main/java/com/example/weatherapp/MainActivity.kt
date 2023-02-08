@@ -32,24 +32,22 @@ class MainActivity : AppCompatActivity() {
         checkWeather()
     }
 
-    fun checkWeather() {
+    private fun checkWeather() {
         retrofit.getData().enqueue(object : Callback<Model> {
             override fun onFailure(call: Call<Model>, t: Throwable) {
                 Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
-                Log.d("error", "aqui", t)
             }
 
             override fun onResponse(call: Call<Model>, response: Response<Model>) {
-                val temp = response.body()?.main?.temp.toString()
-                val tempMin = response.body()?.main?.tempMin.toString()
-                val tempMax = response.body()?.main?.tempMax.toString()
+                val temp = response.body()?.main?.temp?.toInt().toString()
+                val tempMin = response.body()?.main?.tempMin?.toInt().toString()
+                val tempMax = response.body()?.main?.tempMax?.toInt().toString()
                 val local = response.body()?.name.toString()
                 val current = response.body()?.weather?.get(0)?.main.toString()
                 setForm(temp, tempMin, tempMax, local, current)
             }
         })
     }
-
 
     private fun setForm(
         temp: String?,

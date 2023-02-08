@@ -24,6 +24,7 @@
             android:fontFamily="@font/nunito_sans_bold"
             android:text=""
             android:textAllCaps="true"
+            android:maxLines="1"
             android:padding="10dp"
             android:textColor="@color/dark"
             android:textSize="40sp"
@@ -77,7 +78,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -99,13 +100,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_sans_bold"
-                android:text="Min Temp"
+                android:text="Max Temp"
                 android:padding="10dp"
                 android:textColor="@color/dark"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="30dp"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="80dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_min_temp"/>
 
@@ -122,39 +123,13 @@
                 app:layout_constraintStart_toStartOf="@id/txt_max"
                 app:layout_constraintEnd_toEndOf="@id/txt_max"/>
 
-            <ImageView
-                android:id="@+id/ic_rain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_bold"
-                android:src="@drawable/ic_rain"
-                android:text="Rain pos"
-                android:padding="10dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginStart="60dp"
-                app:layout_constraintStart_toEndOf="@id/txt_min"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <TextView
-                android:id="@+id/txt_rain_pos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_bold"
-                android:text=""
-                android:textColor="@color/dark"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@id/ic_rain"
-                app:layout_constraintEnd_toEndOf="@id/ic_rain"
-                app:layout_constraintTop_toBottomOf="@id/ic_rain"
-                />
 
             <ImageView
                 android:id="@+id/ic_current"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ic_baseline_wb_sunny_24"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="60dp"
                 android:layout_marginTop="45dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
