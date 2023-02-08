@@ -2,7 +2,6 @@ package com.example.weatherapp
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weatherapp.databinding.ActivityMainBinding
@@ -44,6 +43,42 @@ class MainActivity : AppCompatActivity() {
                 val tempMax = response.body()?.main?.tempMax?.toInt().toString()
                 val local = response.body()?.name.toString()
                 val current = response.body()?.weather?.get(0)?.main.toString()
+
+                val icCurrent = binding.icCurrent
+                val imgBg = binding.imgBg
+                when (current) {
+                    "Clear" -> {
+                        icCurrent.setImageResource(R.drawable.ic_sun)
+                        imgBg.setImageResource(R.drawable.sun_img)
+                    }
+                    "Rain" -> {
+                        icCurrent.setImageResource(R.drawable.ic_rain)
+                        imgBg.setImageResource(R.drawable.ic_rain)
+                    }
+                    "Shower rain" -> {
+                        icCurrent.setImageResource(R.drawable.ic_rain)
+                        imgBg.setImageResource(R.drawable.ic_rain)
+                    }
+                    "Few clouds" -> {
+                        icCurrent.setImageResource(R.drawable.ic_cloudy)
+                        imgBg.setImageResource(R.drawable.cloud_img)
+                    }
+                    "Scattered clouds" -> {
+                        icCurrent.setImageResource(R.drawable.ic_cloudy)
+                        imgBg.setImageResource(R.drawable.cloud_img)
+                    }
+                    "Broken clouds" -> {
+                        icCurrent.setImageResource(R.drawable.ic_cloudy)
+                        imgBg.setImageResource(R.drawable.broken_clouds_img)
+                    }
+                    "Thunderstorm" -> {
+                        icCurrent.setImageResource(R.drawable.ic_thunderstorm)
+                        imgBg.setImageResource(R.drawable.thunderstrom_img)
+                    }
+                }
+                if (temp <= "12") {
+                    imgBg.setImageResource(R.drawable.cold_img)
+                }
                 setForm(temp, tempMin, tempMax, local, current)
             }
         })
@@ -65,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         binding.txtCurrent.text = current
 
     }
+
 }
 
 
