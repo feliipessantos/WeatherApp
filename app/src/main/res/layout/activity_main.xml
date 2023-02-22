@@ -61,10 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans_bold"
-            android:maxLines="1"
+            android:maxLines="2"
             android:padding="10dp"
             android:text=""
-            android:textAllCaps="true"
             android:textColor="@color/dark"
             android:textSize="40sp"
             android:textStyle="bold" />
@@ -87,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <TextView
-            android:id="@+id/txt_min"
+            android:id="@+id/txt_min_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
@@ -110,12 +109,12 @@
             android:textColor="@color/dark"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/txt_min"
-            app:layout_constraintStart_toStartOf="@id/txt_min"
-            app:layout_constraintTop_toBottomOf="@id/txt_min" />
+            app:layout_constraintEnd_toEndOf="@id/txt_min_header"
+            app:layout_constraintStart_toStartOf="@id/txt_min_header"
+            app:layout_constraintTop_toBottomOf="@id/txt_min_header" />
 
         <TextView
-            android:id="@+id/txt_max"
+            android:id="@+id/txt_max_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
@@ -138,13 +137,13 @@
             android:textColor="@color/dark"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/txt_max"
-            app:layout_constraintStart_toStartOf="@id/txt_max"
-            app:layout_constraintTop_toBottomOf="@id/txt_max" />
+            app:layout_constraintEnd_toEndOf="@id/txt_max_header"
+            app:layout_constraintStart_toStartOf="@id/txt_max_header"
+            app:layout_constraintTop_toBottomOf="@id/txt_max_header" />
 
 
         <ImageView
-            android:id="@+id/ic_current"
+            android:id="@+id/ic_current_wheater"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/weather_icon"
@@ -154,7 +153,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_current"
+            android:id="@+id/txt_current_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -163,12 +162,13 @@
             android:textColor="@color/dark"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/ic_current"
-            app:layout_constraintStart_toStartOf="@id/ic_current"
-            app:layout_constraintTop_toBottomOf="@id/ic_current" />
+            app:layout_constraintEnd_toEndOf="@id/ic_current_wheater"
+            app:layout_constraintStart_toStartOf="@id/ic_current_wheater"
+            app:layout_constraintTop_toBottomOf="@id/ic_current_wheater" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

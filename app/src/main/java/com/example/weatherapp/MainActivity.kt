@@ -1,10 +1,17 @@
 package com.example.weatherapp
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -13,8 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val appid = "e15ff8279f7c587e99d8ca51b0493623"
+    private val units = "metric"
 
-    val retrofit = Retrofit.Builder()
+    val dialogLoading = DialogLoading(this)
+
+    private val retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl("https://api.openweathermap.org/")
         .build()
@@ -28,56 +40,81 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.hide()
         window.statusBarColor = Color.parseColor("#F1E0C5")
 
+        dialogLoading.DialogLoadingInit()
         checkWeather()
     }
 
     private fun checkWeather() {
-        retrofit.getData().enqueue(object : Callback<Model> {
-            override fun onFailure(call: Call<Model>, t: Throwable) {
-                Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
-            }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    val lat = location.latitude.toString()
+                    val lon = location.longitude.toString()
 
-            override fun onResponse(call: Call<Model>, response: Response<Model>) {
-                val temp = response.body()?.main?.temp?.toInt().toString()
-                val tempMin = response.body()?.main?.tempMin?.toInt().toString()
-                val tempMax = response.body()?.main?.tempMax?.toInt().toString()
-                val local = response.body()?.name.toString()
-                val current = response.body()?.weather?.get(0)?.main.toString()
+                    retrofit.getData(lat, lon, appid, units).enqueue(object : Callback<Model> {
+                        override fun onFailure(call: Call<Model>, t: Throwable) {
+                            Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                        }
 
-                val icCurrent = binding.icCurrent
-                val imgBg = binding.imgBg
-                when (current) {
-                    "Clear" -> {
-                        icCurrent.setImageResource(R.drawable.ic_sun)
-                        imgBg.setImageResource(R.drawable.sun_img)
-                    }
-                    "Rain" -> {
-                        icCurrent.setImageResource(R.drawable.ic_rain)
-                        imgBg.setImageResource(R.drawable.ic_rain)
-                    }
-                    "Shower rain" -> {
-                        icCurrent.setImageResource(R.drawable.ic_rain)
-                        imgBg.setImageResource(R.drawable.ic_rain)
-                    }
-                    "Broken clouds" -> {
-                        icCurrent.setImageResource(R.drawable.ic_cloudy)
-                        imgBg.setImageResource(R.drawable.broken_clouds_img)
-                    }
-                    "Thunderstorm" -> {
-                        icCurrent.setImageResource(R.drawable.ic_thunderstorm)
-                        imgBg.setImageResource(R.drawable.thunderstrom_img)
-                    }
-                    else -> {
-                        icCurrent.setImageResource(R.drawable.ic_cloudy)
-                        imgBg.setImageResource(R.drawable.cloud_img)
-                    }
+                        override fun onResponse(call: Call<Model>, response: Response<Model>) {
+                            val temp = response.body()?.main?.temp?.toInt().toString()
+                            val tempMin = response.body()?.main?.tempMin?.toInt().toString()
+                            val tempMax = response.body()?.main?.tempMax?.toInt().toString()
+                            val local = response.body()?.name.toString()
+                            val current = response.body()?.weather?.get(0)?.description.toString()
+                            val currentTxt = response.body()?.weather?.get(0)?.main.toString()
+                            val country = response.body()?.sys?.country.toString()
+
+                            val icCurrent = binding.icCurrentWheater
+                            val imgBg = binding.imgBg
+                            when (current) {
+                                "clear" -> {
+                                    icCurrent.setImageResource(R.drawable.ic_sun)
+                                    imgBg.setImageResource(R.drawable.sun_img)
+                                }
+                                "rain" -> {
+                                    icCurrent.setImageResource(R.drawable.ic_rain)
+                                    imgBg.setImageResource(R.drawable.ic_rain)
+                                }
+                                "shower rain" -> {
+                                    icCurrent.setImageResource(R.drawable.ic_rain)
+                                    imgBg.setImageResource(R.drawable.ic_rain)
+                                }
+                                "broken clouds" -> {
+                                    icCurrent.setImageResource(R.drawable.ic_cloudy)
+                                    imgBg.setImageResource(R.drawable.broken_clouds_img)
+                                }
+                                "thunderstorm" -> {
+                                    icCurrent.setImageResource(R.drawable.ic_thunderstorm)
+                                    imgBg.setImageResource(R.drawable.thunderstrom_img)
+                                }
+                                else -> {
+                                    icCurrent.setImageResource(R.drawable.ic_cloudy)
+                                    imgBg.setImageResource(R.drawable.cloud_img)
+                                }
+                            }
+                            setForm(temp, tempMin, tempMax, local, currentTxt, country)
+                            dialogLoading.DialogLoadingFinish()
+                        }
+                    })
+                } else {
+                    Snackbar.make(binding.root,
+                        "Please turn on your location",
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction("OK") {
+                        }
+                        .setActionTextColor(Color.parseColor("#FFFFFF"))
+                        .show()
                 }
-                if (temp <= "12") {
-                    imgBg.setImageResource(R.drawable.cold_img)
-                }
-                setForm(temp, tempMin, tempMax, local, current)
             }
-        })
     }
 
     private fun setForm(
@@ -85,19 +122,15 @@ class MainActivity : AppCompatActivity() {
         tempMin: String?,
         tempMax: String?,
         local: String?,
-        current: String,
-
-        ) {
-
+        currentTxt: String,
+        country: String,
+    ) {
         binding.txtTemp.text = "${temp} ºC"
         binding.txtMinTemp.text = "${tempMin} ºC"
         binding.txtMaxTemp.text = "${tempMax} ºC"
-        binding.txtLocal.text = local
-        binding.txtCurrent.text = current
-
+        binding.txtLocal.text = "${local}, ${country}"
+        binding.txtCurrentWeather.text = currentTxt
     }
-
-
 }
 
 
