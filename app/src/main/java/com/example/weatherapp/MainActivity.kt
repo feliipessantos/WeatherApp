@@ -59,14 +59,6 @@ class MainActivity : AppCompatActivity() {
                         icCurrent.setImageResource(R.drawable.ic_rain)
                         imgBg.setImageResource(R.drawable.ic_rain)
                     }
-                    "Few clouds" -> {
-                        icCurrent.setImageResource(R.drawable.ic_cloudy)
-                        imgBg.setImageResource(R.drawable.cloud_img)
-                    }
-                    "Scattered clouds" -> {
-                        icCurrent.setImageResource(R.drawable.ic_cloudy)
-                        imgBg.setImageResource(R.drawable.cloud_img)
-                    }
                     "Broken clouds" -> {
                         icCurrent.setImageResource(R.drawable.ic_cloudy)
                         imgBg.setImageResource(R.drawable.broken_clouds_img)
@@ -74,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                     "Thunderstorm" -> {
                         icCurrent.setImageResource(R.drawable.ic_thunderstorm)
                         imgBg.setImageResource(R.drawable.thunderstrom_img)
+                    }
+                    else -> {
+                        icCurrent.setImageResource(R.drawable.ic_cloudy)
+                        imgBg.setImageResource(R.drawable.cloud_img)
                     }
                 }
                 if (temp <= "12") {
@@ -100,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         binding.txtCurrent.text = current
 
     }
+
 
 }
 
