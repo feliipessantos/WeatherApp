@@ -1,6 +1,7 @@
 package com.example.weatherapp.viewmodel.main
 
-
+import android.annotation.SuppressLint
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.weatherapp.Model
@@ -10,24 +11,28 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel(private val repository: MainRepository) : ViewModel() {
-    val liveData = MutableLiveData<Model>()
-    val errorMsg = MutableLiveData<String>()
+    val _wheaterData = MutableLiveData<Model>()
+    val wheaterData: LiveData<Model> = _wheaterData
 
-    fun getData() {
-        val request = repository.getRepositoryData()
+    val _errorMsg = MutableLiveData<String>()
+    val errorMsg: LiveData<String> = _errorMsg
+
+    @SuppressLint("MissingPermission")
+    fun getData(lat: String, lon: String) {
+        val request = repository.getRepositoryData(lat, lon)
+
         request.enqueue(object : Callback<Model> {
             override fun onResponse(call: Call<Model>, response: Response<Model>) {
                 if (response.code() == 200) {
-                    liveData.postValue(response.body())
+                    _wheaterData.postValue(response.body())
                 } else {
-                    errorMsg.postValue("Error network ${response.code()}")
+                    _errorMsg.postValue("Location Not Found")
                 }
             }
 
             override fun onFailure(call: Call<Model>, t: Throwable) {
-                errorMsg.postValue(t.message)
+                _errorMsg.postValue(t.message)
             }
-
 
         })
     }

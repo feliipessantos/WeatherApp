@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,19 +9,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.repository.MainRepository
 import com.example.weatherapp.services.Api
-import com.example.weatherapp.viewmodel.main.LocationViewModel
-import com.example.weatherapp.viewmodel.main.LocationViewModelFactory
 import com.example.weatherapp.viewmodel.main.MainViewModel
 import com.example.weatherapp.viewmodel.main.MainViewModelFactory
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
-import retrofit2.Call
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var viewModel: MainViewModel
-    // lateinit var locationViewModel: LocationViewModel
+    lateinit var lon: String
+    lateinit var lat: String
 
     private val api = Api.getInstance()
 
@@ -36,9 +35,20 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, MainViewModelFactory(MainRepository(api)))
             .get(MainViewModel::class.java)
     }
+
     override fun onStart() {
         super.onStart()
-        viewModel.liveData.observe(this, Observer { response ->
+        observers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getLocation()
+        dialogLoading.DialogLoadingInit()
+    }
+
+    private fun observers() {
+        viewModel.wheaterData.observe(this, Observer { response ->
             val temp = response.main.temp.toInt().toString()
             val tempMin = response.main.tempMin.toInt().toString()
             val tempMax = response.main.tempMax.toInt().toString()
@@ -52,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         viewModel.errorMsg.observe(this, Observer {
+            dialogLoading.DialogLoadingFinish()
             Snackbar.make(
                 binding.root,
                 "Please turn on your location",
@@ -63,10 +74,30 @@ class MainActivity : AppCompatActivity() {
                 .show()
         })
     }
-    override fun onResume() {
-        super.onResume()
-        viewModel.getData()
-        dialogLoading.DialogLoadingInit()
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation() {
+        val location = LocationServices.getFusedLocationProviderClient(this)
+
+        location.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                lon = location.longitude.toString()
+                lat = location.latitude.toString()
+                viewModel.getData(lat, lon)
+            }
+        }.addOnFailureListener {
+            dialogLoading.DialogLoadingFinish()
+            Snackbar.make(
+                binding.root,
+                "Please turn on your location",
+                Snackbar.LENGTH_INDEFINITE
+            )
+                .setAction("OK") {
+                }
+                .setActionTextColor(Color.parseColor("#FFFFFF"))
+                .show()
+        }
+
     }
 
     private fun setForm(
@@ -107,7 +138,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 
 
