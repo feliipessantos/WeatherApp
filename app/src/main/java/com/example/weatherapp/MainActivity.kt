@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -69,30 +70,21 @@ class MainActivity : AppCompatActivity() {
                             val tempMin = response.body()?.main?.tempMin?.toInt().toString()
                             val tempMax = response.body()?.main?.tempMax?.toInt().toString()
                             val local = response.body()?.name.toString()
-                            val current = response.body()?.weather?.get(0)?.description.toString()
                             val currentTxt = response.body()?.weather?.get(0)?.main.toString()
                             val country = response.body()?.sys?.country.toString()
 
                             val icCurrent = binding.icCurrentWheater
                             val imgBg = binding.imgBg
-                            when (current) {
-                                "clear" -> {
+                            when (currentTxt) {
+                                "Clear" -> {
                                     icCurrent.setImageResource(R.drawable.ic_sun)
                                     imgBg.setImageResource(R.drawable.sun_img)
                                 }
-                                "rain" -> {
+                                "Rain" -> {
                                     icCurrent.setImageResource(R.drawable.ic_rain)
-                                    imgBg.setImageResource(R.drawable.ic_rain)
+                                    imgBg.setImageResource(R.drawable.rain_img)
                                 }
-                                "shower rain" -> {
-                                    icCurrent.setImageResource(R.drawable.ic_rain)
-                                    imgBg.setImageResource(R.drawable.ic_rain)
-                                }
-                                "broken clouds" -> {
-                                    icCurrent.setImageResource(R.drawable.ic_cloudy)
-                                    imgBg.setImageResource(R.drawable.broken_clouds_img)
-                                }
-                                "thunderstorm" -> {
+                                "Thunderstorm" -> {
                                     icCurrent.setImageResource(R.drawable.ic_thunderstorm)
                                     imgBg.setImageResource(R.drawable.thunderstrom_img)
                                 }
