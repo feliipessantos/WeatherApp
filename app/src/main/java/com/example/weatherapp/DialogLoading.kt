@@ -5,8 +5,6 @@ import android.app.AlertDialog
 
 class DialogLoading(private val activity: Activity) {
     lateinit var dialog: AlertDialog
-
-
     fun DialogLoadingInit() {
         val builder = AlertDialog.Builder(activity)
         val layoutInflater = activity.layoutInflater
