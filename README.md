@@ -10,7 +10,7 @@
 
 ### About 
 
-<p align="justify">This project is made in MVVM architecture. It consume a API REST <a href="https://openweathermap.org/">(Open Weather)</a>, called by Retrofit, to show the user the current, max and min temperature of his location. For the construction were used ViewBinding to fetch the views, Dialog to wait of API response and Location Services to define the user's location. In the construction of the View, ConstraintLayout and LinearLayout were used.</p>
+<p align="justify">This project is made in MVVM architecture. It consume a API REST <a href="https://openweathermap.org/">(Open Weather)</a>, called by Retrofit with coroutines, to show the user the current, max and min temperature of his location. For the construction were used ViewBinding to fetch the views, Dialog to wait of API response and Location Services to define the user's location. In the construction of the View, ConstraintLayout and LinearLayout were used.</p>
 
 <p align="center">
 <a href="https://user-images.githubusercontent.com/79548186/221209905-8dcee868-9ed6-456b-8462-2f22d955dcbe.png" target="_blank"><img src="https://user-images.githubusercontent.com/79548186/221209905-8dcee868-9ed6-456b-8462-2f22d955dcbe.png" alt="app image Rain" width="300" height="500">
