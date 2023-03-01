@@ -22,6 +22,7 @@
 
 - [Kotlin](https://kotlinlang.org/) - Language used in Android Studio to create the app;
 - [MVVM] - Model View ViewModel;
+ -[Coroutines] - A coroutine is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously;
 - [Open Weather](https://openweathermap.org/) - Api REST used to receive temperature data based on user location;
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java, used to call the Api REST.
   
