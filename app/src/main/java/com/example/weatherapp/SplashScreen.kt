@@ -19,7 +19,6 @@ class SplashScreen : AppCompatActivity() {
             finish()
         }, 1000)
 
-        supportActionBar!!.hide()
-        window.statusBarColor = Color.parseColor("#F1E0C5")
+        window.statusBarColor = Color.parseColor("#C9B79C")
     }
 }

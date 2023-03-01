@@ -23,6 +23,8 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
             val request = repository.getRepositoryData(lat, lon)
             if (request.code() == 200) {
                 _wheaterData.postValue(request)
+            } else {
+                _errorMsg.postValue("Location not found")
             }
         }
 

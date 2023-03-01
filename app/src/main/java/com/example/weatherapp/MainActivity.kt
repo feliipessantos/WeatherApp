@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.repository.MainRepository
 import com.example.weatherapp.services.Api
@@ -29,14 +30,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar!!.hide()
-        window.statusBarColor = Color.parseColor("#F1E0C5")
+        window.statusBarColor = Color.parseColor("#C9B79C")
 
         viewModel = ViewModelProvider(
             this,
             MainViewModelFactory(MainRepository(api))
         )[MainViewModel::class.java]
         dialogLoading.DialogLoadingInit()
+
     }
 
     override fun onStart() {
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getLocation()
+
     }
 
     private fun observers() {
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             dialogLoading.DialogLoadingFinish()
             Snackbar.make(
                 binding.root,
-                "Location not found",
+                it,
                 Snackbar.LENGTH_INDEFINITE
             )
                 .setAction("OK") {
@@ -109,30 +111,50 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             txtTemp.text = form.main.temp.toInt().toString().plus(celsius)
             txtMinTemp.text = form.main.tempMin.toInt().toString().plus(celsius)
-            txtMaxTemp.text = form.main.tempMax.toInt().toString().plus(celsius)
+            txtMaxTemp.text = form.main.tempMax.toInt().toString().plus("/")
             txtLocal.text = form.name.plus(", ").plus(form.sys.country)
             txtCurrentWeather.text = form.weather[0].main
         }
     }
-    private fun setBackground(currentTxt: String){
+
+    private fun setBackground(currentTxt: String) {
         val icCurrent = binding.icCurrentWheater
         val imgBg = binding.imgBg
+        val txtWhite = getColor(R.color.white)
+
+        fun setTxtWhite() {
+            binding.apply {
+                txtTemp.setTextColor(txtWhite)
+                txtLocal.setTextColor(txtWhite)
+                txtCurrentWeather.setTextColor(txtWhite)
+                txtMinTemp.setTextColor(txtWhite)
+                txtMaxTemp.setTextColor(txtWhite)
+            }
+        }
         when (currentTxt) {
             "Clear" -> {
-                icCurrent.setImageResource(R.drawable.ic_sun)
-                imgBg.setImageResource(R.drawable.sun_img)
+                //  icCurrent.setImageResource(R.drawable.ic_sun)
+                Glide.with(this).asGif().load(R.drawable.sunny).into(imgBg)
+            }
+            "Snow" -> {
+                // icCurrent.setImageResource(R.drawable.ic_sun)
+                Glide.with(this).asGif().load(R.drawable.snow).into(imgBg)
             }
             "Rain" -> {
-                icCurrent.setImageResource(R.drawable.ic_rain)
-                imgBg.setImageResource(R.drawable.rain_img)
+                //  icCurrent.setImageResource(R.drawable.ic_rain)
+                setTxtWhite()
+                Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
             }
             "Thunderstorm" -> {
-                icCurrent.setImageResource(R.drawable.ic_thunderstorm)
-                imgBg.setImageResource(R.drawable.thunderstrom_img)
+                //   icCurrent.setImageResource(R.drawable.ic_thunderstorm)
+                Glide.with(this).load(R.drawable.thunderstorm).into(imgBg)
+                setTxtWhite()
             }
             else -> {
-                icCurrent.setImageResource(R.drawable.ic_cloudy)
-                imgBg.setImageResource(R.drawable.cloud_img)
+                //  icCurrent.setImageResource(R.drawable.ic_cloudy)
+                icCurrent.setAnimation(R.raw.few_clouds)
+                icCurrent.playAnimation()
+                Glide.with(this).load(R.drawable.cloud).into(imgBg)
             }
         }
     }
