@@ -32,8 +32,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar!!.hide()
         window.statusBarColor = Color.parseColor("#F1E0C5")
 
-        viewModel = ViewModelProvider(this, MainViewModelFactory(MainRepository(api)))
-            .get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            MainViewModelFactory(MainRepository(api))
+        )[MainViewModel::class.java]
+        dialogLoading.DialogLoadingInit()
     }
 
     override fun onStart() {
@@ -44,20 +47,18 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getLocation()
-        dialogLoading.DialogLoadingInit()
     }
 
     private fun observers() {
-        viewModel.wheaterData.observe(this, Observer { response ->
-            val temp = response.main.temp.toInt().toString()
-            val tempMin = response.main.tempMin.toInt().toString()
-            val tempMax = response.main.tempMax.toInt().toString()
-            val local = response.name
-            val country = response.sys.country
-            val currentTxt = response.weather.get(0).main
-
-            setForm(temp, tempMin, tempMax, local, currentTxt, country)
-            setBackground(currentTxt)
+        viewModel.wheaterData.observe(this, Observer {
+            if (it.isSuccessful) {
+                val response = it.body()
+                if (response != null) {
+                    val main = response.weather[0].main
+                    setForm(response)
+                    setBackground(main)
+                }
+            }
             dialogLoading.DialogLoadingFinish()
         })
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             dialogLoading.DialogLoadingFinish()
             Snackbar.make(
                 binding.root,
-                "Please turn on your location",
+                "Location not found",
                 Snackbar.LENGTH_INDEFINITE
             )
                 .setAction("OK") {
@@ -101,19 +102,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setForm(
-        temp: String?,
-        tempMin: String?,
-        tempMax: String?,
-        local: String?,
-        currentTxt: String,
-        country: String,
+        form: Model,
     ) {
+        val celsius = resources.getString(R.string.celsius)
+
         binding.apply {
-            txtTemp.text = "${temp} ºC"
-            txtMinTemp.text = "${tempMin} ºC"
-            txtMaxTemp.text = "${tempMax} ºC"
-            txtLocal.text = "${local}, ${country}"
-            txtCurrentWeather.text = currentTxt
+            txtTemp.text = form.main.temp.toInt().toString().plus(celsius)
+            txtMinTemp.text = form.main.tempMin.toInt().toString().plus(celsius)
+            txtMaxTemp.text = form.main.tempMax.toInt().toString().plus(celsius)
+            txtLocal.text = form.name.plus(", ").plus(form.sys.country)
+            txtCurrentWeather.text = form.weather[0].main
         }
     }
     private fun setBackground(currentTxt: String){

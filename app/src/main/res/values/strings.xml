@@ -4,4 +4,5 @@
     <string name="max_temp">Max Temp</string>
     <string name="background_image">background image</string>
     <string name="weather_icon">weather icon</string>
+    <string name="celsius"> ºC</string>
 </resources>
