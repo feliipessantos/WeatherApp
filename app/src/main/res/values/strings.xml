@@ -4,5 +4,12 @@
     <string name="max_temp">Max Temp</string>
     <string name="background_image">background image</string>
     <string name="weather_icon">weather icon</string>
-    <string name="celsius"> ºC</string>
+    <string name="celsius">ºC</string>
+    <string name="speed_wind">speed wind</string>
+    <string name="humidity">humidity</string>
+    <string name="feels_like">feels Like</string>
+    <string name="feels_like_descrption">feels like icon</string>
+    <string name="humidity_icon_description">humidity icon</string>
+    <string name="speed_wind_icon_description">speed wind icon</string>
+    <string name="loading">Loading...</string>
 </resources>

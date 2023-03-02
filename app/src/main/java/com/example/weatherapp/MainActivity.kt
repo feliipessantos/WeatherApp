@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity() {
             if (it.isSuccessful) {
                 val response = it.body()
                 if (response != null) {
-                    val main = response.weather[0].main
+                    val currentTxt = response.weather[0].description
                     setForm(response)
-                    setBackground(main)
+                    setBackground(currentTxt)
                 }
             }
             dialogLoading.DialogLoadingFinish()
@@ -113,7 +113,11 @@ class MainActivity : AppCompatActivity() {
             txtMinTemp.text = form.main.tempMin.toInt().toString().plus(celsius)
             txtMaxTemp.text = form.main.tempMax.toInt().toString().plus("/")
             txtLocal.text = form.name.plus(", ").plus(form.sys.country)
-            txtCurrentWeather.text = form.weather[0].main
+            txtCurrentWeather.text = form.weather[0].description
+
+            txtFeelsLike.text = form.main.feelsLike.toInt().toString().plus(celsius)
+            txtHumidity.text = form.main.humidity.toString().plus(" %")
+            txtWind.text = form.wind.speed.toString().plus(" m/s")
         }
     }
 
@@ -132,27 +136,56 @@ class MainActivity : AppCompatActivity() {
             }
         }
         when (currentTxt) {
-            "Clear" -> {
-                //  icCurrent.setImageResource(R.drawable.ic_sun)
+            "clear sky" -> {
+                icCurrent.setAnimation(R.raw.clear_sky)
+                icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.sunny).into(imgBg)
             }
-            "Snow" -> {
-                // icCurrent.setImageResource(R.drawable.ic_sun)
-                Glide.with(this).asGif().load(R.drawable.snow).into(imgBg)
+            "few clouds" -> {
+                icCurrent.setAnimation(R.raw.few_clouds)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
             }
-            "Rain" -> {
-                //  icCurrent.setImageResource(R.drawable.ic_rain)
-                setTxtWhite()
+            "scattered clouds" -> {
+                icCurrent.setAnimation(R.raw.scattered_clouds)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+            }
+            "broken clouds" -> {
+                icCurrent.setAnimation(R.raw.broken_clouds)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+            }
+            "shower rain" -> {
+                icCurrent.setAnimation(R.raw.shower_rain)
+                icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
+                setTxtWhite()
             }
-            "Thunderstorm" -> {
-                //   icCurrent.setImageResource(R.drawable.ic_thunderstorm)
+            "rain" -> {
+                icCurrent.setAnimation(R.raw.rain)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
+                setTxtWhite()
+            }
+            "thunderstorm" -> {
+                icCurrent.setAnimation(R.raw.thunderstorm)
+                icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.thunderstorm).into(imgBg)
                 setTxtWhite()
             }
+            "Snow" -> {
+                icCurrent.setAnimation(R.raw.snow)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.snow).into(imgBg)
+            }
+            "mist" -> {
+                icCurrent.setAnimation(R.raw.mist)
+                icCurrent.playAnimation()
+                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+            }
             else -> {
-                //  icCurrent.setImageResource(R.drawable.ic_cloudy)
-                icCurrent.setAnimation(R.raw.few_clouds)
+                icCurrent.setAnimation(R.raw.clear_sky)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
             }

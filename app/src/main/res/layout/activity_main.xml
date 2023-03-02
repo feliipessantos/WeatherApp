@@ -53,9 +53,7 @@
             style="@style/textBlackStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:maxLines="2"
-            android:padding="10dp"
             android:text=""
             android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +65,6 @@
             style="@style/textBlackStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:text=""
             android:textAllCaps="true"
             android:textSize="60sp"
@@ -106,7 +103,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardContainer"
         android:layout_width="0dp"
-        android:layout_height="125dp"
+        android:layout_height="140dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/border"
         android:backgroundTint="@color/beige_60"
@@ -119,72 +116,101 @@
             android:layout_height="match_parent"
             android:padding="15dp">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/icFellsLike"
+            <ImageView
+                android:id="@+id/icFeelsLike"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:src="@drawable/ic_feels_like"
                 app:layout_constraintEnd_toStartOf="@id/icHumidity"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/fells_like" />
+                android:contentDescription="@string/feels_like_descrption" />
 
             <TextView
-                android:id="@+id/txtFellsLike"
+                android:id="@+id/txtFeelsLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/textBlackStyle"
-                android:text="29 ºC"
+                android:text=""
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/icFellsLike"
-                app:layout_constraintStart_toStartOf="@+id/icFellsLike"
-                app:layout_constraintTop_toBottomOf="@+id/icFellsLike" />
+                app:layout_constraintEnd_toEndOf="@+id/icFeelsLike"
+                app:layout_constraintStart_toStartOf="@+id/icFeelsLike"
+                app:layout_constraintTop_toBottomOf="@+id/icFeelsLike" />
 
-            <com.airbnb.lottie.LottieAnimationView
+            <TextView
+                android:id="@+id/txtFeelsLikeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/textBlackStyle"
+                android:text="@string/feels_like"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/txtFeelsLike"
+                app:layout_constraintStart_toStartOf="@+id/txtFeelsLike"
+                app:layout_constraintTop_toBottomOf="@+id/txtFeelsLike" />
+
+            <ImageView
                 android:id="@+id/icHumidity"
-                android:layout_width="60dp"
+                android:layout_width="55dp"
                 android:layout_height="60dp"
+                android:src="@drawable/ic_humidity"
                 app:layout_constraintEnd_toStartOf="@id/icWind"
-                app:layout_constraintStart_toEndOf="@id/icFellsLike"
+                app:layout_constraintStart_toEndOf="@id/icFeelsLike"
                 app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/humidly" />
+                android:contentDescription="@string/humidity_icon_description" />
 
             <TextView
                 android:id="@+id/txtHumidity"
                 style="@style/textBlackStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="47 %"
+                android:text=""
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/icHumidity"
                 app:layout_constraintStart_toStartOf="@+id/icHumidity"
-                app:layout_constraintTop_toBottomOf="@+id/icHumidity" />
+                app:layout_constraintTop_toBottomOf="@+id/icFeelsLike" />
 
+            <TextView
+                android:id="@+id/txtHumidityTitle"
+                style="@style/textBlackStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/humidity"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/txtHumidity"
+                app:layout_constraintStart_toStartOf="@+id/txtHumidity"
+                app:layout_constraintTop_toTopOf="@+id/txtFeelsLikeTitle" />
 
-            <com.airbnb.lottie.LottieAnimationView
+            <ImageView
                 android:id="@+id/icWind"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:src="@drawable/ic_wind"
                 app:layout_constraintStart_toEndOf="@id/icHumidity"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/wind"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/speed_wind_icon_description" />
 
             <TextView
                 android:id="@+id/txt_wind"
                 style="@style/textBlackStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4Km/h"
+                android:text=""
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@+id/icWind"
                 app:layout_constraintStart_toStartOf="@+id/icWind"
-                app:layout_constraintTop_toBottomOf="@+id/icWind" />
+                app:layout_constraintTop_toTopOf="@+id/txtHumidity" />
+
+            <TextView
+                android:id="@+id/txtWindTitle"
+                style="@style/textBlackStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/speed_wind"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/txt_wind"
+                app:layout_constraintStart_toStartOf="@+id/txt_wind"
+                app:layout_constraintTop_toTopOf="@+id/txtFeelsLikeTitle" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
