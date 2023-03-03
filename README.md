@@ -6,11 +6,12 @@
   <br>
 </h1>
 
-<h4 align="center">A weather app made with <a href="https://kotlinlang.org/" target="_blank">kotlin</a> in MVVM architecture.</h4>
+<h4 align="center">Um app para checar o clima feito em <a href="https://kotlinlang.org/" target="_blank">kotlin</a> com a arquitetura MVVM.</h4>
 
-### About 
+## Sobre 
 
-<p align="justify">This project is made in MVVM architecture. It consume a API REST <a href="https://openweathermap.org/">(Open Weather)</a>, called by Retrofit with coroutines, to show the user the current, max and min temperature of his location. For the construction were used ViewBinding to fetch the views, Dialog to wait of API response and Location Services to define the user's location. In the construction of the View, ConstraintLayout and LinearLayout were used.</p>
+<p align="justify">
+  Esse projeto foi feito com a arquitetura MVVM, ele consome a API REST <a href="https://openweathermap.org/">(Open Weather)</a>, chamada pelo Retrofit utilizando corrotinas. Quando o app inicia ele solicita a permissão de acessar a localizaçção utual do usuário, se concedida ele mostrará a temperatura atual, max e min do dia, além da humidade, sensação térmica e velocidade do vento. É possivel também pesquisar o nome de alguma cidade para se verificar o clima. Para a construção do app foram usadas a bibliotecas do Lottie - para animar os icones e Glide - para mostrar as imagens de background. Este app foi construído em inglês porém se o dispositivo de usuário estiver em PT-BR, os textos serão traduzidos automaticamente.</p>
 
 <p align="center">
 <a href="https://user-images.githubusercontent.com/79548186/221209905-8dcee868-9ed6-456b-8462-2f22d955dcbe.png" target="_blank"><img src="https://user-images.githubusercontent.com/79548186/221209905-8dcee868-9ed6-456b-8462-2f22d955dcbe.png" alt="app image Rain" width="300" height="500">
@@ -18,13 +19,15 @@
 <a href="https://user-images.githubusercontent.com/79548186/221209929-0dead647-b7fd-4e8e-a1dd-7f22df95cd67.png" target="_blank"><img src="https://user-images.githubusercontent.com/79548186/221209929-0dead647-b7fd-4e8e-a1dd-7f22df95cd67.png" alt="app image Clouds" width="300" height="500">
 </p>
   
-### Built With
+## Feito com
 
-- [Kotlin](https://kotlinlang.org/) - Language used in Android Studio to create the app;
-- [MVVM] - Model View ViewModel;
- -[Coroutines] - A coroutine is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously;
-- [Open Weather](https://openweathermap.org/) - Api REST used to receive temperature data based on user location;
-- [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java, used to call the Api REST.
+- [Kotlin](https://kotlinlang.org/) - Linguagem utilizada no Android Studio para construção do app;
+- [MVVM] - Arquitetura Model View ViewModel;
+- [Coroutines] - Corrotinas são um padrão de design usado em Android para simplificar um código executado de forma assíincrona;
+- [Open Weather](https://openweathermap.org/) - Api REST usada para receber os dados do clima;
+- [Retrofit](https://square.github.io/retrofit/) - Um cliente HTTP utilizado para chamar a API REST;
+- [Glide](https://github.com/bumptech/glide) - Um gerenciamento de mídia utilizado para o carregamento de imagens para Android;
+- [Lottie](https://lottiefiles.com/) - Uma biblioteca que permite o carregamento de icones animados.
   
   <div align="center">
     <video src="https://user-images.githubusercontent.com/79548186/221211135-f416208a-725d-485e-94a7-ac8de5a1f66f.mp4">
