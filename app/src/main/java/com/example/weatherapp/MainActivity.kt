@@ -1,12 +1,15 @@
 package com.example.weatherapp
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var lat: String
 
     private val api = Api.getInstance()
+    val LOCATION_SERVICE_CODE = 1000
 
     private val dialogLoading = DialogLoading(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +46,9 @@ class MainActivity : AppCompatActivity() {
             MainViewModelFactory(MainRepository(api))
         )[MainViewModel::class.java]
         dialogLoading.dialogLoadingInit(R.layout.dialog_loading)
+        permissions()
 
     }
-
     override fun onStart() {
         super.onStart()
         observers()
@@ -128,6 +132,29 @@ class MainActivity : AppCompatActivity() {
                 .setBackgroundTint(Color.RED)
                 .show()
         }
+    }
+
+    private fun requestLocationPermission() {
+        return ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+            ), LOCATION_SERVICE_CODE
+        )
+    }
+
+    private fun isPermissionGranted(): Boolean {
+        viewModel.requestPermissionGranted()
+        return ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun permissions() {
+        if (!isPermissionGranted())
+            requestLocationPermission()
+        else viewModel.requestPermissionGranted()
     }
 
     private fun setFormLocal(form: Model) {

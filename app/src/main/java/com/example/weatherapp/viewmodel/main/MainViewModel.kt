@@ -19,6 +19,8 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
 
+    var requestLocation = MutableLiveData<Boolean>()
+
     fun getLocalData(lat: String, lon: String) {
         viewModelScope.launch {
             val request = repository.getRepositoryLocalData(lat, lon)
@@ -39,5 +41,9 @@ class MainViewModel(private val repository: MainRepository) : ViewModel() {
                 _errorMsg.postValue("Location not found")
             }
         }
+    }
+
+    fun requestPermissionGranted() {
+        requestLocation.value = true
     }
 }
