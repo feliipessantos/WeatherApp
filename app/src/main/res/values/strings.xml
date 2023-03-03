@@ -11,7 +11,7 @@
     <string name="feels_like_descrption">feels like icon</string>
     <string name="humidity_icon_description">humidity icon</string>
     <string name="speed_wind_icon_description">speed wind icon</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="search_hint">Search</string>
     <string name="clear_sky">Clear sky</string>
     <string name="cloudy">Cloudy</string>
@@ -23,4 +23,8 @@
     <string name="broken_clouds">Broken clouds</string>
     <string name="shower_rain">Shower rain</string>
     <string name="snow">Snow</string>
+    <string name="button_close">button close</string>
+    <string name="turn_on_location_snackbar">Please turn on your location</string>
+    <string name="not_found_snackbar">Location not found</string>
+
 </resources>

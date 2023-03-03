@@ -3,11 +3,15 @@ package com.example.weatherapp
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.model.Model
 import com.example.weatherapp.repository.MainRepository
 import com.example.weatherapp.services.Api
 import com.example.weatherapp.viewmodel.main.MainViewModel
@@ -20,12 +24,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     lateinit var viewModel: MainViewModel
-    lateinit var lon: String
-    lateinit var lat: String
+    private lateinit var lon: String
+    private lateinit var lat: String
 
     private val api = Api.getInstance()
 
-    val dialogLoading = DialogLoading(this)
+    private val dialogLoading = DialogLoading(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             this,
             MainViewModelFactory(MainRepository(api))
         )[MainViewModel::class.java]
-        dialogLoading.DialogLoadingInit()
+        dialogLoading.dialogLoadingInit(R.layout.dialog_loading)
 
     }
 
@@ -50,31 +54,52 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         getLocation()
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.getSearchData(query.toString())
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun observers() {
-        viewModel.wheaterData.observe(this, Observer {
-            if (it.isSuccessful) {
-                val response = it.body()
+        viewModel.weatherData.observe(this, Observer { weatherData ->
+            if (weatherData.isSuccessful) {
+                val response = weatherData.body()
                 if (response != null) {
                     val ic = response.weather[0].icon
-                    setForm(response)
+                    setFormLocal(response)
                     setBackground(ic)
                 }
             }
-            dialogLoading.DialogLoadingFinish()
+            dialogLoading.dialogLoadingFinish()
+        })
+
+        viewModel.searchData.observe(this, Observer { searchData ->
+            if (searchData.isSuccessful) {
+                val response = searchData.body()
+                if (response != null) {
+                    setSearchedDialog()
+                    setFormSearch(response)
+                }
+            }
         })
 
         viewModel.errorMsg.observe(this, Observer {
-            dialogLoading.DialogLoadingFinish()
             Snackbar.make(
                 binding.root,
-                it,
+                "",
                 Snackbar.LENGTH_INDEFINITE
             )
                 .setAction("OK") {
                 }
-                .setActionTextColor(Color.parseColor("#FFFFFF"))
+                .setText(getString(R.string.not_found_snackbar))
+                .setTextColor(Color.WHITE)
+                .setBackgroundTint(Color.RED)
                 .show()
         })
     }
@@ -83,29 +108,29 @@ class MainActivity : AppCompatActivity() {
     private fun getLocation() {
         val location = LocationServices.getFusedLocationProviderClient(this)
 
-        location.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                lon = location.longitude.toString()
-                lat = location.latitude.toString()
-                viewModel.getData(lat, lon)
+        location.lastLocation.addOnSuccessListener { local ->
+            if (local != null) {
+                lon = local.longitude.toString()
+                lat = local.latitude.toString()
+                viewModel.getLocalData(lat, lon)
             }
         }.addOnFailureListener {
-            dialogLoading.DialogLoadingFinish()
+            dialogLoading.dialogLoadingFinish()
             Snackbar.make(
                 binding.root,
-                "Please turn on your location",
+                "",
                 Snackbar.LENGTH_INDEFINITE
             )
                 .setAction("OK") {
                 }
-                .setActionTextColor(Color.parseColor("#FFFFFF"))
+                .setText(getString(R.string.turn_on_location_snackbar))
+                .setTextColor(Color.WHITE)
+                .setBackgroundTint(Color.RED)
                 .show()
         }
     }
 
-    private fun setForm(
-        form: Model,
-    ) {
+    private fun setFormLocal(form: Model) {
         val celsius = resources.getString(R.string.celsius)
 
 
@@ -122,7 +147,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBackground(ic: String) {
-
         val icCurrent = binding.icCurrentWheater
         val txtCurrent = binding.txtCurrentWeather
         val imgBg = binding.imgBg
@@ -238,6 +262,101 @@ class MainActivity : AppCompatActivity() {
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
             }
         }
+    }
+
+    private fun setSearchedDialog() {
+        binding.dialogSearch.visibility = VISIBLE
+
+        binding.btClose.setOnClickListener {
+            binding.dialogSearch.visibility = GONE
+        }
+
+    }
+
+    private fun setFormSearch(form: Model) {
+        val celsius = resources.getString(R.string.celsius)
+        val searchDialogIc = binding.icSearched
+
+        binding.apply {
+            txtSearchedCity.text = form.name
+            txtSearchedTemp.text = form.main.temp.toInt().toString().plus(celsius)
+            txtSearchedTempMax.text = form.main.tempMax.toInt().toString().plus("/")
+            txtSearchedTempMin.text = form.main.tempMin.toInt().toString().plus(celsius)
+        }
+
+        when (form.weather[0].icon) {
+            "01n" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.clear_sky)
+                searchDialogIc.setAnimation(R.raw.clear_night)
+                searchDialogIc.playAnimation()
+            }
+            "02n", "03n", "04n" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.cloudy)
+                searchDialogIc.setAnimation(R.raw.cloud_night)
+                searchDialogIc.playAnimation()
+            }
+            "09n", "10n" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.rain)
+                searchDialogIc.setAnimation(R.raw.rain_night)
+                searchDialogIc.playAnimation()
+            }
+            "13n" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.snow)
+                searchDialogIc.setAnimation(R.raw.snow_night)
+                searchDialogIc.playAnimation()
+            }
+            "50n", "50d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.mist)
+                searchDialogIc.setAnimation(R.raw.mist)
+                searchDialogIc.playAnimation()
+            }
+            "01d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.clear_sky)
+                searchDialogIc.setAnimation(R.raw.clear_sky)
+                searchDialogIc.playAnimation()
+            }
+            "02d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.few_clouds)
+                searchDialogIc.setAnimation(R.raw.few_clouds)
+                searchDialogIc.playAnimation()
+            }
+            "03d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.scatterd_clouds)
+                searchDialogIc.setAnimation(R.raw.scattered_clouds)
+                searchDialogIc.playAnimation()
+            }
+            "04d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.broken_clouds)
+                searchDialogIc.setAnimation(R.raw.broken_clouds)
+                searchDialogIc.playAnimation()
+            }
+            "09d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.shower_rain)
+                searchDialogIc.setAnimation(R.raw.shower_rain)
+                searchDialogIc.playAnimation()
+            }
+            "10d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.rain)
+                searchDialogIc.setAnimation(R.raw.rain)
+                searchDialogIc.playAnimation()
+            }
+            "11d", "11n" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.thunderstorm)
+                searchDialogIc.setAnimation(R.raw.thunderstorm)
+                searchDialogIc.playAnimation()
+            }
+            "13d" -> {
+                binding.txtSearchedCurrent.text = getString(R.string.snow)
+                searchDialogIc.setAnimation(R.raw.snow)
+                searchDialogIc.playAnimation()
+            }
+            else -> {
+                binding.txtSearchedCurrent.text = getString(R.string.clear_sky)
+                searchDialogIc.setAnimation(R.raw.clear_sky)
+                searchDialogIc.playAnimation()
+            }
+        }
+
     }
 }
 
