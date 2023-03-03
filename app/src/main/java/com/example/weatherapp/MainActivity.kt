@@ -3,7 +3,6 @@ package com.example.weatherapp
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,9 +57,9 @@ class MainActivity : AppCompatActivity() {
             if (it.isSuccessful) {
                 val response = it.body()
                 if (response != null) {
-                    val currentTxt = response.weather[0].description
+                    val ic = response.weather[0].icon
                     setForm(response)
-                    setBackground(currentTxt)
+                    setBackground(ic)
                 }
             }
             dialogLoading.DialogLoadingFinish()
@@ -102,7 +101,6 @@ class MainActivity : AppCompatActivity() {
                 .setActionTextColor(Color.parseColor("#FFFFFF"))
                 .show()
         }
-
     }
 
     private fun setForm(
@@ -110,12 +108,12 @@ class MainActivity : AppCompatActivity() {
     ) {
         val celsius = resources.getString(R.string.celsius)
 
+
         binding.apply {
             txtTemp.text = form.main.temp.toInt().toString().plus(celsius)
             txtMinTemp.text = form.main.tempMin.toInt().toString().plus(celsius)
             txtMaxTemp.text = form.main.tempMax.toInt().toString().plus("/")
             txtLocal.text = form.name.plus(", ").plus(form.sys.country)
-            txtCurrentWeather.text = form.weather[0].description
 
             txtFeelsLike.text = form.main.feelsLike.toInt().toString().plus(celsius)
             txtHumidity.text = form.main.humidity.toString().plus(" %")
@@ -123,8 +121,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setBackground(currentTxt: String) {
+    private fun setBackground(ic: String) {
+
         val icCurrent = binding.icCurrentWheater
+        val txtCurrent = binding.txtCurrentWeather
         val imgBg = binding.imgBg
         val txtWhite = getColor(R.color.white)
 
@@ -137,79 +137,102 @@ class MainActivity : AppCompatActivity() {
                 txtMaxTemp.setTextColor(txtWhite)
             }
         }
-
-        fun getHour(){
-            val AmPM = Calendar.getInstance().get(Calendar.AM_PM)
-            val hour = Calendar.getInstance().get(Calendar.HOUR)
-            val hour24 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-
-
-            if(AmPM == 1 && hour > 6 || AmPM == 0 && hour < 6 || hour24 > 18){
+        when (ic) {
+            "01n" -> {
+                txtCurrent.text = getString(R.string.clear_sky)
                 Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
                 icCurrent.setAnimation(R.raw.clear_night)
                 icCurrent.playAnimation()
                 setTxtWhite()
             }
-        }
-        when (currentTxt) {
-            "clear sky" -> {
+            "02n", "03n", "04n" -> {
+                txtCurrent.text = getString(R.string.cloudy)
+                Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
+                icCurrent.setAnimation(R.raw.cloud_night)
+                icCurrent.playAnimation()
+                setTxtWhite()
+            }
+            "09n", "10n" -> {
+                txtCurrent.text = getString(R.string.rain)
+                Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
+                icCurrent.setAnimation(R.raw.rain_night)
+                icCurrent.playAnimation()
+                setTxtWhite()
+            }
+            "13n" -> {
+                txtCurrent.text = getString(R.string.snow)
+                Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
+                icCurrent.setAnimation(R.raw.snow_night)
+                icCurrent.playAnimation()
+                setTxtWhite()
+            }
+            "50n" -> {
+                txtCurrent.text = getString(R.string.mist)
+                Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
+                icCurrent.setAnimation(R.raw.mist)
+                icCurrent.playAnimation()
+                setTxtWhite()
+            }
+            "01d" -> {
+                txtCurrent.text = getString(R.string.clear_sky)
                 icCurrent.setAnimation(R.raw.clear_sky)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.sunny).into(imgBg)
-                getHour()
+
             }
-            "few clouds" -> {
+            "02d" -> {
+                txtCurrent.text = getString(R.string.few_clouds)
                 icCurrent.setAnimation(R.raw.few_clouds)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
-                getHour()
             }
-            "scattered clouds" -> {
+            "03d" -> {
+                txtCurrent.text = getString(R.string.scatterd_clouds)
                 icCurrent.setAnimation(R.raw.scattered_clouds)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
-                getHour()
             }
-            "broken clouds" -> {
+            "04d" -> {
+                txtCurrent.text = getString(R.string.broken_clouds)
                 icCurrent.setAnimation(R.raw.broken_clouds)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
-                getHour()
             }
-            "shower rain" -> {
+            "09d" -> {
+                txtCurrent.text = getString(R.string.shower_rain)
                 icCurrent.setAnimation(R.raw.shower_rain)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
                 setTxtWhite()
-                getHour()
             }
-            "rain" -> {
+            "10d" -> {
+                txtCurrent.text = getString(R.string.rain)
                 icCurrent.setAnimation(R.raw.rain)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
                 setTxtWhite()
-                getHour()
             }
-            "thunderstorm" -> {
+            "11d", "11n" -> {
+                txtCurrent.text = getString(R.string.thunderstorm)
                 icCurrent.setAnimation(R.raw.thunderstorm)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.thunderstorm).into(imgBg)
                 setTxtWhite()
-                getHour()
             }
-            "Snow" -> {
+            "13d" -> {
+                txtCurrent.text = getString(R.string.snow)
                 icCurrent.setAnimation(R.raw.snow)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.snow).into(imgBg)
-                getHour()
             }
-            "mist" -> {
+            "50d" -> {
+                txtCurrent.text = getString(R.string.mist)
                 icCurrent.setAnimation(R.raw.mist)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
-                getHour()
             }
             else -> {
+                txtCurrent.text = getString(R.string.clear_sky)
                 icCurrent.setAnimation(R.raw.clear_sky)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.cloud).into(imgBg)
