@@ -13,8 +13,21 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/background_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/cloud"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textPersonName"
+        android:imeOptions="actionDone"
+        android:background="@drawable/search_style"
+        android:queryHint="@string/search_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cardContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/imgBg"
-        app:layout_constraintTop_toTopOf="@+id/imgBg">
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/icCurrentWheater"

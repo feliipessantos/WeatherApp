@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.example.weatherapp.viewmodel.main.MainViewModel
 import com.example.weatherapp.viewmodel.main.MainViewModelFactory
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -135,54 +137,77 @@ class MainActivity : AppCompatActivity() {
                 txtMaxTemp.setTextColor(txtWhite)
             }
         }
+
+        fun getHour(){
+            val AmPM = Calendar.getInstance().get(Calendar.AM_PM)
+            val hour = Calendar.getInstance().get(Calendar.HOUR)
+            val hour24 = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+
+            if(AmPM == 1 && hour > 6 || AmPM == 0 && hour < 6 || hour24 > 18){
+                Glide.with(this).asGif().load(R.drawable.nigth).into(imgBg)
+                icCurrent.setAnimation(R.raw.clear_night)
+                icCurrent.playAnimation()
+                setTxtWhite()
+            }
+        }
         when (currentTxt) {
             "clear sky" -> {
                 icCurrent.setAnimation(R.raw.clear_sky)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.sunny).into(imgBg)
+                getHour()
             }
             "few clouds" -> {
                 icCurrent.setAnimation(R.raw.few_clouds)
                 icCurrent.playAnimation()
-                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+                Glide.with(this).load(R.drawable.cloud).into(imgBg)
+                getHour()
             }
             "scattered clouds" -> {
                 icCurrent.setAnimation(R.raw.scattered_clouds)
                 icCurrent.playAnimation()
-                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+                Glide.with(this).load(R.drawable.cloud).into(imgBg)
+                getHour()
             }
             "broken clouds" -> {
                 icCurrent.setAnimation(R.raw.broken_clouds)
                 icCurrent.playAnimation()
-                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+                Glide.with(this).load(R.drawable.cloud).into(imgBg)
+                getHour()
             }
             "shower rain" -> {
                 icCurrent.setAnimation(R.raw.shower_rain)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
                 setTxtWhite()
+                getHour()
             }
             "rain" -> {
                 icCurrent.setAnimation(R.raw.rain)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.rain).into(imgBg)
                 setTxtWhite()
+                getHour()
             }
             "thunderstorm" -> {
                 icCurrent.setAnimation(R.raw.thunderstorm)
                 icCurrent.playAnimation()
                 Glide.with(this).load(R.drawable.thunderstorm).into(imgBg)
                 setTxtWhite()
+                getHour()
             }
             "Snow" -> {
                 icCurrent.setAnimation(R.raw.snow)
                 icCurrent.playAnimation()
                 Glide.with(this).asGif().load(R.drawable.snow).into(imgBg)
+                getHour()
             }
             "mist" -> {
                 icCurrent.setAnimation(R.raw.mist)
                 icCurrent.playAnimation()
-                Glide.with(this).asGif().load(R.drawable.cloud).into(imgBg)
+                Glide.with(this).load(R.drawable.cloud).into(imgBg)
+                getHour()
             }
             else -> {
                 icCurrent.setAnimation(R.raw.clear_sky)
