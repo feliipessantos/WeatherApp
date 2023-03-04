@@ -125,8 +125,10 @@
         app:layout_constraintStart_toStartOf="@id/imgBg">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:padding="15dp">
 
             <ImageView

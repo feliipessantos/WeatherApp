@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             dialogLoading.dialogLoadingFinish()
+            showContainerDetails()
         })
 
         viewModel.searchData.observe(this, Observer { searchData ->
@@ -120,17 +121,19 @@ class MainActivity : AppCompatActivity() {
             }
         }.addOnFailureListener {
             dialogLoading.dialogLoadingFinish()
-            Snackbar.make(
-                binding.root,
-                "",
-                Snackbar.LENGTH_INDEFINITE
-            )
-                .setAction("OK") {
-                }
-                .setText(getString(R.string.turn_on_location_snackbar))
-                .setTextColor(Color.WHITE)
-                .setBackgroundTint(Color.RED)
-                .show()
+            if (isPermissionGranted()) {
+                Snackbar.make(
+                    binding.root,
+                    "",
+                    Snackbar.LENGTH_INDEFINITE
+                )
+                    .setAction("OK") {
+                    }
+                    .setText(getString(R.string.turn_on_location_snackbar))
+                    .setTextColor(Color.WHITE)
+                    .setBackgroundTint(Color.RED)
+                    .show()
+            }
         }
     }
 
@@ -384,6 +387,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun showContainerDetails(){
+        binding.containerDetails.visibility = VISIBLE
     }
 }
 
