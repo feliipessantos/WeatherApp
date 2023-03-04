@@ -25,7 +25,7 @@ Esse projeto foi feito com a arquitetura MVVM, ele consome a API REST <a href="h
 
 ## Download
 
-Faça o download da <a href="">APK</a>. Você pode ver <a href="https://www.google.com/search?q=como+instalar+um+apk+no+android">aqui</a> como instalar uma APK no seu aparelho android.
+Faça o download da <a href="https://github.com/feliipessantos/WeatherApp/blob/main/app/apk/app-debug.apk">APK</a>. Você pode ver <a href="https://www.google.com/search?q=como+instalar+um+apk+no+android">aqui</a> como instalar uma APK no seu aparelho android.
 
 
 ## Tecnologias utilizadas e bibliotecas de código aberto
