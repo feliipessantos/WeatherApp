@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var lat: String
 
     private val api = Api.getInstance()
-    val LOCATION_SERVICE_CODE = 1000
+    private val LOCATION_SERVICE_CODE = 1000
 
     private val dialogLoading = DialogLoading(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             MainViewModelFactory(MainRepository(api))
         )[MainViewModel::class.java]
         dialogLoading.dialogLoadingInit(R.layout.dialog_loading)
-        permissions()
+       permissions()
 
     }
     override fun onStart() {
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun requestLocationPermission() {
+   private fun requestLocationPermission() {
         return ActivityCompat.requestPermissions(
             this,
             arrayOf(
