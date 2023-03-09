@@ -19,13 +19,20 @@ Esse projeto foi feito com a arquitetura MVVM, ele consome a API REST <a href="h
 
 </br>
 
-![gif_entry](https://user-images.githubusercontent.com/79548186/222921886-b3ceacb1-dbad-4d24-a29d-0eb3e682c860.gif)
-![gif_busca](https://user-images.githubusercontent.com/79548186/222922181-40f99abf-3c3b-4128-926f-611a30b00309.gif)
-![gif_main](https://user-images.githubusercontent.com/79548186/222922184-62a4cfbc-da11-4911-9550-4be587f3279f.gif)
+<p float="left" align="center">
+<img alt="screenshot" width="30%" src="https://user-images.githubusercontent.com/79548186/224039544-0fd5934f-2184-4e9e-9b46-2da2467919eb.gif"/>
+  <img alt="screenshot" width="30%" src="https://user-images.githubusercontent.com/79548186/222921886-b3ceacb1-dbad-4d24-a29d-0eb3e682c860.gif"/>
+  <img alt="screenshot" width="30%" src="https://user-images.githubusercontent.com/79548186/222922181-40f99abf-3c3b-4128-926f-611a30b00309.gif"/>
+</p>
 
 ## Download
 
-Faça o download da <a href="https://github.com/feliipessantos/WeatherApp/blob/main/app/apk/app-debug.apk">APK</a>. Você pode ver <a href="https://www.google.com/search?q=como+instalar+um+apk+no+android">aqui</a> como instalar uma APK no seu aparelho android.
+<a href='https://play.google.com/store/apps/details?id=com.feliipessantos.weatherapp&pli=1'><img alt='Disponível no Google Play' width="15%" src='https://play.google.com/intl/en_us/badges/static/images/badges/pt_badge_web_generic.png'/></a>
+
+<img alt="screenshot" width="10%" src="https://user-images.githubusercontent.com/79548186/224040304-8620c914-9d75-4b5f-90a2-0d4023423190.png"/>
+Ou escaneie o QR com seu celular para ser direcionado para a Google Play 
+
+Você também pode fazer o download da <a href="https://github.com/feliipessantos/WeatherApp/blob/main/app/apk/app-debug.apk">APK</a>. Você pode ver <a href="https://www.google.com/search?q=como+instalar+um+apk+no+android">aqui</a> como instalar uma APK no seu aparelho android.
 
 
 ## Tecnologias utilizadas e bibliotecas de código aberto
